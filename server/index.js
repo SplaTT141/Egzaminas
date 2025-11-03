@@ -9,6 +9,7 @@ import { postEvent } from './api/postEvent.js';
 import { getEvents } from './api/getEvents.js';
 import { deleteEvent } from './api/deleteEvent.js';
 import { putEvent } from './api/putEvent.js';
+import { putHeart } from './api/putHeart.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,6 +35,7 @@ app.post('/admin/event/add', postEvent);
 app.delete('/admin/events/:id', deleteEvent)
 
 app.put('/admin/event/edit', putEvent);
+app.put('/heart', putHeart);
 
 app.get('*error', (req, res) => {
     return res.json({

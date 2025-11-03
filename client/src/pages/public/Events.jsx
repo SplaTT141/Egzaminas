@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export function Events() {
 
         const [event, setEvent] = useState([]);
-        const [error, setError] = useState('');``
-    
+        const [error, setError] = useState('');
+
         useEffect(() => {
             fetch('http://localhost:5000/events', {
                 method: 'GET',
@@ -22,6 +22,25 @@ export function Events() {
                 })
                 .catch(error => console.log(error));
         }, [])
+
+        function handleClickHeart(id) {
+            fetch(`http://localhost:5000/heart`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id,
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'error') {
+                        setError(data.message);
+                    }
+                })
+        }
+        
 
     return (
         <div className="container">
@@ -41,6 +60,8 @@ export function Events() {
                                             <th scope="col">Kategorija</th>
                                             <th scope="col">Laikas</th>
                                             <th scope="col">Vieta</th>
+                                            <th scope="col">Reitingas</th>
+                                            <th scope="col">Įvertink!</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,6 +81,8 @@ export function Events() {
                                                     <td>{event.category}</td>
                                                     <td>{event.time}</td>
                                                     <td>{event.place}</td>
+                                                    <td>{event.rating}</td>
+                                                    <td><button className="mt-2 btn btn-warning border-0" onClick={() => handleClickHeart(event.id)}>❤</button></td>
                                                 </tr>
                                             ))
                                             :
