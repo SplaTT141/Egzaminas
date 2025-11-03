@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export function Events() {
 
@@ -38,7 +38,10 @@ export function Events() {
                     if (data.status === 'error') {
                         setError(data.message);
                     }
+
+                    setEvent(prev => prev.filter(event => event.id === id));
                 })
+                .catch(error => console.log(error))
         }
         
 
@@ -60,8 +63,8 @@ export function Events() {
                                             <th scope="col">Kategorija</th>
                                             <th scope="col">Laikas</th>
                                             <th scope="col">Vieta</th>
-                                            <th scope="col">Reitingas</th>
                                             <th scope="col">Įvertink!</th>
+                                            <th scope="col">Reitingas</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -81,8 +84,8 @@ export function Events() {
                                                     <td>{event.category}</td>
                                                     <td>{event.time}</td>
                                                     <td>{event.place}</td>
+                                                    <td><button className="d-flex mt-2 btn btn-danger border-0" onClick={() => handleClickHeart(event.id)}>⭐</button></td>
                                                     <td>{event.rating}</td>
-                                                    <td><button className="mt-2 btn btn-warning border-0" onClick={() => handleClickHeart(event.id)}>❤</button></td>
                                                 </tr>
                                             ))
                                             :
